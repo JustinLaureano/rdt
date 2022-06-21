@@ -1,0 +1,9 @@
+beautifulsoup4
+python-dotenv
+requests
+yfinance
+html5lib
+pandas
+numpy
+finvizfinance
+openpyxl

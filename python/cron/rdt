@@ -1,0 +1,2 @@
+0 4 * * * /usr/local/bin/python /usr/src/app/get_ticker_info.py
+* * * * * /usr/local/bin/python /usr/src/app/get_symbols.py

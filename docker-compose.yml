@@ -1,0 +1,52 @@
+version: "3.5"
+
+networks:
+    rdt_web:
+        driver: bridge
+
+services:
+
+    rdt_python:
+        build:
+            context: ./python
+        container_name: rdt_python
+        tty: true
+        volumes:
+            - ./python/src:/usr/src/app
+        networks:
+            - rdt_web
+
+    rdt_web:
+        build:
+            context: ./web
+        container_name: rdt_web
+        tty: true
+        ports:
+            - "80:80"
+        volumes:
+            - ./web/html:/var/www/html
+        networks:
+            - rdt_web
+
+    rdt_mysql:
+        build:
+            context: ./mysql
+        container_name: rdt_mysql
+        tty: true
+        ports:
+            - "3306:3306"
+        volumes:
+            - rdt_mysql:/var/lib/mysql
+            - ${MYSQL_ENTRYPOINT_INITDB}:/docker-entrypoint-initdb.d
+        environment:
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        networks:
+            - rdt_web
+
+volumes:
+    rdt_python:
+    rdt_mysql:
+    rdt_web:
